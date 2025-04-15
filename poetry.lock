@@ -35,6 +35,25 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-phonenumber-field"
+version = "8.1.0"
+description = "An international phone number field for django models."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "django_phonenumber_field-8.1.0-py3-none-any.whl", hash = "sha256:9ba66873bf47401b13fc57797fbf85e785864a6bfdc8b9daa3a9012886567045"},
+    {file = "django_phonenumber_field-8.1.0.tar.gz", hash = "sha256:f19450625574ad3a2de047c409527d0e57699496849e71e53b53e8679ff67b27"},
+]
+
+[package.dependencies]
+Django = ">=4.2"
+phonenumberslite = {version = ">=7.0.2", optional = true, markers = "extra == \"phonenumberslite\""}
+
+[package.extras]
+phonenumbers = ["phonenumbers (>=7.0.2)"]
+phonenumberslite = ["phonenumberslite (>=7.0.2)"]
+
+[[package]]
 name = "djangorestframework"
 version = "3.16.0"
 description = "Web APIs for Django, made easy."
@@ -47,6 +66,17 @@ files = [
 
 [package.dependencies]
 django = ">=4.2"
+
+[[package]]
+name = "phonenumberslite"
+version = "9.0.3"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+optional = false
+python-versions = "*"
+files = [
+    {file = "phonenumberslite-9.0.3-py2.py3-none-any.whl", hash = "sha256:ecac17d6059dd23f6b213b57a7ac7f4bf97edd64399ecf0c6dd0efd2bbcb5b36"},
+    {file = "phonenumberslite-9.0.3.tar.gz", hash = "sha256:c8b3b21517e4603c87098a62a062302050bf0c73a095cc239cdd5d9313157a1d"},
+]
 
 [[package]]
 name = "pillow"
@@ -225,6 +255,20 @@ files = [
 ]
 
 [[package]]
+name = "python-dotenv"
+version = "1.1.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "python_dotenv-1.1.0-py3-none-any.whl", hash = "sha256:d7c01d9e2293916c18baf562d95698754b0dbbb5e74d457c45d4f6561fb9d55d"},
+    {file = "python_dotenv-1.1.0.tar.gz", hash = "sha256:41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "sqlparse"
 version = "0.5.3"
 description = "A non-validating SQL parser."
@@ -253,4 +297,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "94483c6fd3ffa4ad30e5ee9171f388e611cf80077c05ba88c9bdb04f39488697"
+content-hash = "ab3c1b8d438b51072e4d16786c636651747648cdc7e72f6267b2c8c97e05121d"
