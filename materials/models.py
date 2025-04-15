@@ -22,4 +22,12 @@ class Lesson(models.Model):
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, verbose_name='Курс', related_name='lesson', null=True, blank=True
     )
-    lint_to_video = models.TextField(verbose_name='Ссылка на видео')
+    link_to_video = models.TextField(verbose_name='Ссылка на видео')
+
+    def __str__(self):
+        return f'{self.title_lesson}'
+
+    class Meta:
+        verbose_name = 'Урок'
+        verbose_name_plural = 'Уроки'
+        ordering = ['title_lesson']
