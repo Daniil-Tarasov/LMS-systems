@@ -1,0 +1,11 @@
+[
+{
+    "model": "materials.course",
+    "pk": 2,
+    "fields": {
+        "title_course": "Python-разработчик",
+        "preview": "",
+        "description": "Лучший курс для языка питона"
+    }
+}
+]
