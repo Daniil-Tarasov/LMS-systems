@@ -6,13 +6,13 @@ class Course(models.Model):
     preview = models.ImageField(upload_to="materials/course/images", verbose_name='Превью', blank=True, null=True)
     description = models.TextField(verbose_name='Описание курса')
 
-    def __str__(self):
-        return f'{self.title_course} - {self.description}'
-
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
         ordering = ["title_course"]
+
+    def __str__(self):
+        return f'{self.title_course} - {self.description}'
 
 
 class Lesson(models.Model):
@@ -24,10 +24,10 @@ class Lesson(models.Model):
     )
     link_to_video = models.URLField(verbose_name='Ссылка на видео')
 
-    def __str__(self):
-        return f'{self.title_lesson}'
-
     class Meta:
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
         ordering = ['title_lesson']
+
+    def __str__(self):
+        return f'{self.title_lesson}'

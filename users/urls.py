@@ -5,5 +5,5 @@ from users.views import UserUpdateAPIView
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('users/update/<int:pk>/', UserUpdateAPIView.as_view(), name='user_update'),
+    path('users/<int:pk>/update/', UserUpdateAPIView.as_view(), name='user_update'),
 ]
