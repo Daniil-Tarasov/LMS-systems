@@ -7,5 +7,14 @@
         "preview": "",
         "description": "Лучший курс для языка питона"
     }
+},
+{
+    "model": "materials.course",
+    "pk": 3,
+    "fields": {
+        "title_course": "Изучение английского языка",
+        "preview": "",
+        "description": "Лучший курс для изучения английского языка"
+    }
 }
 ]

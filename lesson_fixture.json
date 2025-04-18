@@ -20,5 +20,16 @@
         "course": 2,
         "link_to_video": "https://linefews.ru"
     }
+},
+{
+    "model": "materials.lesson",
+    "pk": 4,
+    "fields": {
+        "title_lesson": "Первые шаги",
+        "preview": "",
+        "description": "Узнаем начальный уровень ваших знаний",
+        "course": 3,
+        "link_to_video": "https://lms.ru/english/lesson/1/video/"
+    }
 }
 ]
