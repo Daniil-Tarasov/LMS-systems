@@ -5,7 +5,8 @@
     "fields": {
         "title_course": "Python-разработчик",
         "preview": "",
-        "description": "Лучший курс для языка питона"
+        "description": "Лучший курс для языка питона",
+        "owner": null
     }
 },
 {
@@ -14,7 +15,18 @@
     "fields": {
         "title_course": "Изучение английского языка",
         "preview": "",
-        "description": "Лучший курс для изучения английского языка"
+        "description": "Лучший курс для изучения английского языка",
+        "owner": null
+    }
+},
+{
+    "model": "materials.course",
+    "pk": 4,
+    "fields": {
+        "title_course": "Разработчик на Java",
+        "preview": "",
+        "description": "Лучший курс для изучения языка программирования Java",
+        "owner": 2
     }
 }
 ]

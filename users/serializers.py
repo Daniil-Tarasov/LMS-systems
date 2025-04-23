@@ -26,4 +26,10 @@ class UserDetailSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'phone_number', 'city', 'avatar', 'payment')
+        fields = ('id', 'email', 'first_name', 'last_name', 'phone_number', 'city', 'avatar', 'payment',)
+
+
+class UserDetailPublicSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'first_name', 'phone_number', 'city', 'avatar')
