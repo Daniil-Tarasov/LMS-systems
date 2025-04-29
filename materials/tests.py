@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from materials.models import Course, Lesson
-from users.models import User, SubscriptionForUpdate
+from users.models import User
 
 
 class LessonTestCase(APITestCase):
@@ -94,36 +94,85 @@ class LessonTestCase(APITestCase):
         )
 
 
-class SubscriptionTestCase(APITestCase):
+class CourseTestCase(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create(email='fortest@mail.com')
         self.course = Course.objects.create(title_course='Test Course', description='Test Description', owner=self.user)
         self.client.force_authenticate(user=self.user)
 
-    def test_subscribe(self):
-        url = reverse('users:subscription')
-        data = {
-            'course': self.course.pk
-        }
-        response = self.client.post(url, data)
+    def test_course_retrieve(self):
+        url = reverse('materials:course-detail', args=(self.course.pk,))
+        response = self.client.get(url)
+        data = response.json()
         self.assertEqual(
             response.status_code, status.HTTP_200_OK
         )
         self.assertEqual(
-            response.json(), {"message": "Подписка добавлена"}
+            data.get('title_course'), self.course.title_course
         )
 
-    def test_unsubscribe(self):
-        self.subscription = SubscriptionForUpdate.objects.create(user=self.user, course=self.course)
-        url = reverse('users:subscription')
+    def test_course_create(self):
+        url = reverse('materials:course-list')
         data = {
-            'course': self.course.pk
+            'title_course': 'Test Create',
+            'description': 'Test Create Course',
         }
         response = self.client.post(url, data)
+        self.assertEqual(
+            response.status_code, status.HTTP_201_CREATED
+        )
+        self.assertEqual(
+            Course.objects.all().count(), 2
+        )
+
+    def test_course_list(self):
+        url = reverse('materials:course-list')
+        response = self.client.get(url)
+        data = response.json()
+        result = {
+            'count': 1,
+                  'next': None,
+                  'previous': None,
+                  'results': [
+                      {
+                          'id': self.course.pk,
+                          "is_subscribed": False,
+                          'title_course': self.course.title_course,
+                          'preview': None,
+                          'description': self.course.description,
+                          'owner': self.user.pk
+                      }
+                  ]
+        }
         self.assertEqual(
             response.status_code, status.HTTP_200_OK
         )
         self.assertEqual(
-            response.json(), {"message": "Подписка удалена"}
+            data, result
+        )
+
+    def test_course_update(self):
+        url = reverse('materials:course-detail', args=(self.course.pk,))
+        data = {
+            'title_course': 'Test Course Update',
+            'description': 'Test Create Course',
+        }
+        response = self.client.patch(url, data)
+        data = response.json()
+        self.assertEqual(
+            response.status_code, status.HTTP_200_OK
+        )
+        self.assertEqual(
+            data.get('title_course'), 'Test Course Update'
+        )
+
+    def test_lesson_delete(self):
+        url = reverse('materials:course-detail', args=(self.course.pk,))
+        response = self.client.delete(url)
+        self.assertEqual(
+            response.status_code, status.HTTP_204_NO_CONTENT
+        )
+        self.assertEqual(
+            Lesson.objects.all().count(), 0
         )
