@@ -7,7 +7,8 @@
         "preview": "",
         "description": "Начало программирования на питоне",
         "course": 2,
-        "link_to_video": "https://linefews.ru"
+        "link_to_video": "https://linefews.ru",
+        "owner": 3
     }
 },
 {
@@ -18,7 +19,8 @@
         "preview": "",
         "description": "Основы синтаксиса при программировании на питоне",
         "course": 2,
-        "link_to_video": "https://linefews.ru"
+        "link_to_video": "https://linefews.ru",
+        "owner": null
     }
 },
 {
@@ -29,7 +31,8 @@
         "preview": "",
         "description": "Узнаем начальный уровень ваших знаний",
         "course": 3,
-        "link_to_video": "https://lms.ru/english/lesson/1/video/"
+        "link_to_video": "https://lms.ru/english/lesson/1/video/",
+        "owner": null
     }
 }
 ]
