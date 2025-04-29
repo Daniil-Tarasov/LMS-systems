@@ -3,13 +3,19 @@ from rest_framework.serializers import ModelSerializer
 
 from materials.models import Course, Lesson
 from materials.validators import LinkToVideo
+from users.models import SubscriptionForUpdate
 
 
 class CourseSerializer(ModelSerializer):
+    is_subscribed = SerializerMethodField()
 
     class Meta:
         model = Course
         fields = '__all__'
+
+    def get_is_subscribed(self, course):
+        user = self.context['request'].user
+        return SubscriptionForUpdate.objects.filter(user=user, course=course).exists()
 
 
 class LessonSerializer(ModelSerializer):

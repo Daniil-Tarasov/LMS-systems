@@ -12,4 +12,4 @@ class LinkToVideo:
         reg = re.compile('^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/')
         url = dict(value).get(self.field)
         if not bool(reg.match(url)):
-            raise ValidationError
+            raise ValidationError('Разрешены только ссылки на youtube.com или youtu.be')
