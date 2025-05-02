@@ -149,3 +149,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+STRIPE_API_KEY = env.str('STRIPE_SECRET_KEY')
