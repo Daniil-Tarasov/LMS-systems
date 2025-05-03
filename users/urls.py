@@ -13,7 +13,7 @@ urlpatterns = [
     path('users/', UserListAPIView.as_view(), name='user_list'),
     path('users/<int:pk>/', UserRetrieveAPIView.as_view(), name='user_profile'),
     path('users/<int:pk>/update/', UserUpdateAPIView.as_view(), name='user_update'),
-    path('payment/create/', PaymentCreateAPIVew.as_view(), name='payment_create'),
+    path('course/payment/<int:course_id>/', PaymentCreateAPIVew.as_view(), name='payment_course'),
     path('payment/', PaymentListAPIView.as_view(), name='payment_list'),
     path('payment/<int:pk>/', PaymentRetrieveAPIView.as_view(), name='payment_detail'),
     path('login/', TokenObtainPairView.as_view(permission_classes = (AllowAny,)), name='login'),

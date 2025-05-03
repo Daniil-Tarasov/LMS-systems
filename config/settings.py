@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'phonenumber_field',
     'rest_framework',
     'django_filters',
@@ -148,3 +149,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+STRIPE_API_KEY = env.str('STRIPE_SECRET_KEY')

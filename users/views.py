@@ -10,6 +10,7 @@ from materials.models import Course
 from users.models import User, Payment, SubscriptionForUpdate
 from users.serializers import UserSerializer, PaymentSerializer, UserRegisterSerializer, UserDetailSerializer, \
     UserDetailPublicSerializer
+from users.services import create_stripe_price, create_stripe_product, create_stripe_session
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -52,6 +53,20 @@ class UserDestroyAPIView(DestroyAPIView):
 
 class PaymentCreateAPIVew(CreateAPIView):
     serializer_class = PaymentSerializer
+
+    def perform_create(self, serializer):
+        course_id = self.kwargs.get('course_id')
+        course = Course.objects.get(id=course_id)
+        course_title = course.title_course
+        course_price = course.price
+        payment = serializer.save(user=self.request.user, payment_amount=course_price)
+        payment.payment_course.add(course)
+        stripe_product_id = create_stripe_product(course_title)
+        stripe_price = create_stripe_price(course_price, stripe_product_id)
+        session_id, payment_url = create_stripe_session(stripe_price)
+        payment.session_id = session_id
+        payment.url = payment_url
+        payment.save()
 
 
 class PaymentListAPIView(ListAPIView):
