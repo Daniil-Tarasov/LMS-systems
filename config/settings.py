@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 from environs import Env
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_yasg',
+    'django_celery_beat',
     'phonenumber_field',
     'rest_framework',
     'django_filters',
@@ -151,3 +152,18 @@ REST_FRAMEWORK = {
 }
 
 STRIPE_API_KEY = env.str('STRIPE_SECRET_KEY')
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_TASK_TRACK_STARTED = True
+
+# CELERY_BEAT_SCHEDULE = {
+#     'task-name': {
+#         'task': 'myapp.tasks.my_task',
+#         'schedule': timedelta(minutes=10),
+#     },
+# }
