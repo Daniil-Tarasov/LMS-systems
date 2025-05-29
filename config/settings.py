@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env("DATABASE_NAME"),
-        "USER": env("DATABASE_USER"),
-        "PASSWORD": env("DATABASE_PASSWORD"),
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
         "HOST": env("DATABASE_HOST"),
         "PORT": env.int("DATABASE_PORT", 5432),
     }
@@ -153,7 +153,7 @@ REST_FRAMEWORK = {
 
 STRIPE_API_KEY = env.str('STRIPE_SECRET_KEY')
 
-CELERY_BROKER_URL = env('CELERY_BROKER')
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 
