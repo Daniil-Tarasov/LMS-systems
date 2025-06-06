@@ -156,7 +156,7 @@ class PaymentTestCase(APITestCase):
         )
 
     def test_payment_create(self):
-        url = reverse('users:payment_create')
+        url = reverse('users:payment_course')
         data = {
             'user': self.user.pk,
             'payment_amount': 200,
