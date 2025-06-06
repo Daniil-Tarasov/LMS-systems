@@ -53,6 +53,7 @@ class LessonTestCase(APITestCase):
                           'id': self.lesson.pk,
                           'title_lesson': self.lesson.title_lesson,
                           'preview': None,
+                          'price': None,
                           'description': self.lesson.description,
                           'link_to_video': self.lesson.link_to_video,
                           'course': self.course.pk,
@@ -140,6 +141,7 @@ class CourseTestCase(APITestCase):
                           "is_subscribed": False,
                           'title_course': self.course.title_course,
                           'preview': None,
+                          'price': None,
                           'description': self.course.description,
                           'owner': self.user.pk
                       }

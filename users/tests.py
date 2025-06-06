@@ -141,6 +141,7 @@ class PaymentTestCase(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create(email='fortest@mail.com')
+        self.course = Course.objects.create(title_course='Test', description='Test', price=200, owner=self.user)
         self.payment = Payment.objects.create(user=self.user, payment_amount=100, payment_method='Наличные')
         self.client.force_authenticate(user=self.user)
 
@@ -156,7 +157,7 @@ class PaymentTestCase(APITestCase):
         )
 
     def test_payment_create(self):
-        url = reverse('users:payment_course')
+        url = reverse('users:payment_course', args=(self.course.pk,))
         data = {
             'user': self.user.pk,
             'payment_amount': 200,
@@ -177,7 +178,9 @@ class PaymentTestCase(APITestCase):
                 "payment_date": localtime(self.payment.payment_date).isoformat(),
                 "payment_amount": self.payment.payment_amount,
                 "payment_method": self.payment.payment_method,
-                "user": 12,
+                "session_id": None,
+                "url": None,
+                "user": 1,
                 "payment_course": [],
                 'payment_lesson': [],
 
