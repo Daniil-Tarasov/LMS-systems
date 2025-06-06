@@ -13,7 +13,7 @@ class LessonTestCase(APITestCase):
         self.course = Course.objects.create(title_course='Test Course', description='Test Description', owner=self.user)
         self.lesson = Lesson.objects.create(
             title_lesson='Test Lesson', description='Test description', course=self.course,
-            link_to_video='https://www.youtube.com/watch?v=abc123', owner=self.user
+            link_to_video='https://www.youtube.com/watch?v=abc12', owner=self.user
         )
         self.client.force_authenticate(user=self.user)
 
