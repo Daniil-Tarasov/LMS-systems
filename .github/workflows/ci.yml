@@ -1,6 +1,6 @@
 name: Practice CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
@@ -24,6 +24,8 @@ jobs:
           poetry install
 
       - name: Run tests
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: poetry run python manage.py test
 
   build:
