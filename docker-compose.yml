@@ -14,13 +14,13 @@ services:
       - .env
 
   nginx:
-    buld:
-      contex: ./nginx
+    build:
+      context: ./nginx
     ports:
       - '80:80'
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    depens_on:
+    depends_on:
       - web
 
   db:
