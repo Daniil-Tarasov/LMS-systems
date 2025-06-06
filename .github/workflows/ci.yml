@@ -85,7 +85,7 @@ jobs:
           -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
           -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
           -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
-          -e STRIPE_SECRET_KEY="${{ secrets.STRIPE_SECRET_KEY }}" \
+          -e STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} \
           -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
           -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
           -e EMAIL_HOST=${{ secrets.EMAIL_HOST }} \
@@ -93,6 +93,6 @@ jobs:
           -e EMAIL_USE_TLS=${{ secrets.EMAIL_USE_TLS }} \
           -e EMAIL_USE_SSL=${{ secrets.EMAIL_USE_SSL }} \
           -e EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} \
-          -e EMAIL_HOST_PASSWORD="${{ secrets.EMAIL_HOST_PASSWORD }}" \
+          -e EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} \
           ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
           EOF
