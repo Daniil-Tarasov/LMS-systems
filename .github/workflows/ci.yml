@@ -76,17 +76,17 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull postgres:16.0
-          docker pull redis
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
           docker stop lms_systems postgres redis || true
           docker rm lms_systems postgres redis || true
           docker network create mynetwork --driver bridge 2>/dev/null || true
-          docker run -d --network=mynetwork --name redis -p 6379:6379
-          docker run -d --network=mynetwork --name postgres -p 5432:5432 \
+          docker run -d --network=mynetwork --name redis -p 6379:6379 redis:latest
+          docker run -d --network=mynetwork --name postgres \
+          -p 5432:5432 \
           -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
           -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
           -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+          postgres:16.0
           docker run -d --network=mynetwork --name lms_systems -p 80:8000 \
           -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
