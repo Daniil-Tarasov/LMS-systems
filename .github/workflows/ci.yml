@@ -76,14 +76,14 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull postgres:16.0
+          docker pull postgres:16.0 ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
           docker stop lms_systems || true
           docker stop postgres || true
           docker rm lms_systems || true
           docker rm postgres || true
           docker network create mynetwork
-          docker run --network=mynetwork -d --name lms_systems \
+          docker run --network=mynetwork -d --name postgres \
           -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
           -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
           -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
