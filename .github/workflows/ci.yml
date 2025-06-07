@@ -75,33 +75,33 @@ jobs:
 
       - name: Deploy to server
         run: |
-            scp docker-compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/lms_systems/
-            ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
-              cd ~/lms_systems
-              docker-compose pull
-              docker-compose up -d --build
-            EOF
-
-#      - name: Deploy to server
-#        run: |
-#          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-#          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
-#          docker stop lms_systems || true
-#          docker rm lms_systems || true
-#          docker run -d --name lms_systems -p 80:8000 \
-#          -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
-#          -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
-#          -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
-#          -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-#          -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
-#          -e STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} \
-#          -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
-#          -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
-#          -e EMAIL_HOST=${{ secrets.EMAIL_HOST }} \
-#          -e EMAIL_PORT=${{ secrets.EMAIL_PORT }} \
-#          -e EMAIL_USE_TLS=${{ secrets.EMAIL_USE_TLS }} \
-#          -e EMAIL_USE_SSL=${{ secrets.EMAIL_USE_SSL }} \
-#          -e EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} \
-#          -e EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} \
-#          ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
-#          EOF
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          docker pull postgres:16.0
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
+          docker stop lms_systems || true
+          docker stop postgres || true
+          docker rm lms_systems || true
+          docker rm postgres || true
+          docker network create mynetwork
+          docker run --network=mynetwork -d --name lms_systems \
+          -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+          -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+          -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+          -e DATABASE_HOST=${{ secrets.DATABASE_HOST }}
+          docker run --network=mynetwork -d --name lms_systems -p 80:8000 \
+          -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+          -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+          -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+          -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+          -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
+          -e STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} \
+          -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
+          -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
+          -e EMAIL_HOST=${{ secrets.EMAIL_HOST }} \
+          -e EMAIL_PORT=${{ secrets.EMAIL_PORT }} \
+          -e EMAIL_USE_TLS=${{ secrets.EMAIL_USE_TLS }} \
+          -e EMAIL_USE_SSL=${{ secrets.EMAIL_USE_SSL }} \
+          -e EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} \
+          -e EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} \
+          ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
+          EOF
