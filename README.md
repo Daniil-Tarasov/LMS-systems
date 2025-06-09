@@ -67,7 +67,9 @@ SSH_USER
 STRIPE_SECRET_KEY
 
 2. Если у вас имеется своя база данных, то в [ci.yml](.github%2Fworkflows%2Fci.yml) удалите "docker run -d --network=mynetwork --name postgres \"
-3. Создайте файл .env на вашем сервере и внесите необходимые переменные окружения на примере '.env.smple': ```nano .env```
+3. Измените в файле [lms_systems.service](lms_systems.service) на 9 строчке 'ExecStart' вместо 'ontarasoff/lms_systems:latest' укажите '<your_docker_hub_username>/lms_systems:latest'
+4. Создайте файл .env на вашем сервере и внесите необходимые переменные окружения на примере '.env.smple': ```nano .env```
+5. Укажите путь до файла .env в [lms_systems.service](lms_systems.service) в 'EnvironmentFile' и на 9 строчке вместо '--env-file /home/daniil/LMS-systems/.env"
 
 ## Проверка работоспособности
 
