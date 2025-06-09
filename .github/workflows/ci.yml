@@ -46,6 +46,11 @@ jobs:
           EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
         run: poetry run python manage.py test
 
+      - name: Coverage tests
+        run: |
+          poetry run coverage run --source='.' manage.py test
+          poetry run coverage report
+
   build:
     needs: test
     runs-on: ubuntu-latest
