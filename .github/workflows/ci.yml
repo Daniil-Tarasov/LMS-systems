@@ -81,7 +81,9 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }} .
 
       - name: Push Docker image in DockerHub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
+        run: |
+          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }} ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:latest
 
   deploy:
     needs: build
@@ -95,32 +97,8 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
-          docker stop lms_systems postgres redis || true
-          docker rm lms_systems postgres redis || true
-          docker network create mynetwork --driver bridge 2>/dev/null || true
-          docker run -d --network=mynetwork --name redis -p 6379:6379 redis:latest
-          docker run -d --network=mynetwork --name postgres \
-          -p 5432:5432 \
-          -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
-          -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
-          -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-          postgres:16.0
-          docker run -d --network=mynetwork --name lms_systems -p 80:8000 \
-          -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
-          -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
-          -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
-          -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-          -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
-          -e STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} \
-          -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
-          -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
-          -e EMAIL_HOST=${{ secrets.EMAIL_HOST }} \
-          -e EMAIL_PORT=${{ secrets.EMAIL_PORT }} \
-          -e EMAIL_USE_TLS=${{ secrets.EMAIL_USE_TLS }} \
-          -e EMAIL_USE_SSL=${{ secrets.EMAIL_USE_SSL }} \
-          -e EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} \
-          -e EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} \
-          ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:${{ github.sha }}
+          scp my_app.service ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/systemd/system/
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
+          systemctl daemon-reload
+          systemctl restart lms_systems
           EOF
