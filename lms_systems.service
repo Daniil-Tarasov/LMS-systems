@@ -5,8 +5,8 @@ After=docker.service
 
 [Service]
 Restart=always
-EnvironmentFile=/LMS-systems/.env
-ExecStart=/usr/bin/docker run --name lms_systems -p 80:8000 --env-file /LMS-systems/.env ontarasoff/lms_systems:latest
+EnvironmentFile=/home/daniil/LMS-systems/.env
+ExecStart=/usr/bin/docker run --name lms_systems -p 80:8000 --env-file /home/daniil/LMS-systems/.env ontarasoff/lms_systems:latest
 ExecStop=/usr/bin/docker stop lms_systems
 
 [Install]
