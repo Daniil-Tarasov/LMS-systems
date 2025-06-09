@@ -100,7 +100,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          scp lms_systems.service ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/systemd/system/
+          scp -o StrictHostKeyChecking=no lms_systems.service ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/systemd/system/
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
           systemctl daemon-reload
           systemctl restart lms_systems
