@@ -1,5 +1,5 @@
 [Unit]
-Description=My Dockerized App
+Description=LMS Systems Docker Container
 Requires=docker.service
 After=docker.service
 
@@ -9,23 +9,22 @@ ExecStart=/usr/bin/docker run \
   --name lms_systems \
   --network=mynetwork \
   -p 80:8000 \
-  -e SECRET_KEY="%E{SECRET_KEY}" \
-  -e POSTGRES_DB=%E{POSTGRES_DB} \
-  -e POSTGRES_USER=%E{POSTGRES_USER} \
-  -e POSTGRES_PASSWORD=%E{POSTGRES_PASSWORD} \
-  -e DATABASE_HOST=postgres \
-  -e STRIPE_SECRET_KEY=%E{STRIPE_SECRET_KEY} \
-  -e CELERY_BROKER_URL=redis://redis:6379/0 \
-  -e CELERY_RESULT_BACKEND=redis://redis:6379/0 \
-  -e EMAIL_HOST=%E{EMAIL_HOST} \
-  -e EMAIL_PORT=%E{EMAIL_PORT} \
-  -e EMAIL_USE_TLS=%E{EMAIL_USE_TLS} \
-  -e EMAIL_USE_SSL=%E{EMAIL_USE_SSL} \
-  -e EMAIL_HOST_USER=%E{EMAIL_HOST_USER} \
-  -e EMAIL_HOST_PASSWORD=%E{EMAIL_HOST_PASSWORD} \
+  -e SECRET_KEY=${SECRET_KEY} \
+  -e POSTGRES_DB=${POSTGRES_DB} \
+  -e POSTGRES_USER=${POSTGRES_USER} \
+  -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+  -e DATABASE_HOST=${DATABASE_HOST} \
+  -e STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY} \
+  -e CELERY_BROKER_URL=${CELERY_BROKER_URL} \
+  -e CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND} \
+  -e EMAIL_HOST=${EMAIL_HOST} \
+  -e EMAIL_PORT=${EMAIL_PORT} \
+  -e EMAIL_USE_TLS=${EMAIL_USE_TLS} \
+  -e EMAIL_USE_SSL=${EMAIL_USE_SSL} \
+  -e EMAIL_HOST_USER=${EMAIL_HOST_USER} \
+  -e EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD} \
   ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:latest
 ExecStop=/usr/bin/docker stop lms_systems
-TimeoutStartSec=0
 
 [Install]
 WantedBy=multi-user.target
