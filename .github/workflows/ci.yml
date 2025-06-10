@@ -100,6 +100,8 @@ jobs:
 
       - name: Deploy to server
         run: |
+          sudo mkdir /etc/supervisor/
+          sudo mkdir /etc/supervisor/conf.d/
           scp -o StrictHostKeyChecking=no lms_systems.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/supervisor/conf.d/
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:latest
