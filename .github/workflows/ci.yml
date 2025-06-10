@@ -102,7 +102,7 @@ jobs:
         run: |
           sudo mkdir /etc/supervisor/ || false
           sudo mkdir /etc/supervisor/conf.d/ || false
-          scp -o StrictHostKeyChecking=no lms_systems.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/supervisor/conf.d/
+          sudo scp -o StrictHostKeyChecking=no lms_systems.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/supervisor/conf.d/
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:latest
           docker stop lms_systems postgres redis || true
