@@ -100,9 +100,10 @@ jobs:
 
       - name: Deploy to server
         run: |
+          ssh-copy-id -i ${{ PATH_TO_SSH_PUB }} ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}
           sudo mkdir /etc/supervisor/ || false
           sudo mkdir /etc/supervisor/conf.d/ || false
-          sudo scp -o StrictHostKeyChecking=no lms_systems.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/supervisor/conf.d/
+          scp -o StrictHostKeyChecking=no lms_systems.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/supervisor/conf.d/
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:latest
           docker stop lms_systems postgres redis || true
