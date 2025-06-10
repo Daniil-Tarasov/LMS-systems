@@ -1,6 +1,6 @@
 name: Practice CI
 
-on: [ push ]
+on: [push]
 
 jobs:
   test:
@@ -100,11 +100,8 @@ jobs:
 
       - name: Deploy to server
         run: |
-          sudo mkdir /etc/supervisor/ || false
-          sudo mkdir /etc/supervisor/conf.d/ || false
-          sudo scp -o StrictHostKeyChecking=no lms_systems.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/supervisor/conf.d/
+          scp -o StrictHostKeyChecking=no lms_systems.service ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/etc/systemd/system/
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_systems:latest
           docker stop lms_systems postgres redis || true
           docker rm lms_systems postgres redis || true
           docker network create mynetwork --driver bridge 2>/dev/null || true
@@ -115,9 +112,6 @@ jobs:
           -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
           -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
           postgres:16.0
-          sudo supervisord || false
-          sudo supervisorctl reread
-          sudo supervisorctl update
-          sudo supervisorctl start lms_systems || false
-          sudo supervisorctl restart lms_systems
+          sudo systemctl daemon-reload
+          sudo systemctl restart lms_systems
           EOF
