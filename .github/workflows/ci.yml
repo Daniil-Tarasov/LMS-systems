@@ -111,7 +111,6 @@ jobs:
           -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
           -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
           -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-          -e POSTGRES_MEMORY_BUFFER=512MB \
           postgres:16.0
           sudo systemctl daemon-reload
           sudo systemctl restart lms_systems
