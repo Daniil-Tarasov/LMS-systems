@@ -15,7 +15,7 @@ services:
   nginx:
     image: lms_systems:latest
     volumes:
-      - ./lms_systems/nginx.conf:/etc/lms_systems/conf.d/default.conf
+      - ./nginx.conf:/etc/lms_systems/conf.d/default.conf
     ports:
       - '80:80'
     depends_on:
