@@ -13,7 +13,7 @@ services:
       - ./.env
 
   nginx:
-    image: lms_systems:latest
+    image: nginx:latest
     volumes:
       - ./nginx.conf:/etc/lms_systems/conf.d/default.conf
     ports:
