@@ -47,6 +47,8 @@ services:
     depends_on:
       - redis
       - celery
+    env_file:
+      - ./.env
 
   redis:
     image: redis:latest
