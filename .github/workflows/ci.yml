@@ -2,7 +2,8 @@ name: Practice CI
 
 on:
   push:
-    - feature/homework_35_2_without_systemd_or_supervisor
+    branches:
+      - feature/homework_35_2_without_systemd_or_supervisor
 
 jobs:
   test:
