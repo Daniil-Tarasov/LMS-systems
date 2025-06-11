@@ -65,8 +65,7 @@ SERVER_IP,
 SSH_KEY,
 SSH_USER,
 STRIPE_SECRET_KEY
-
-2. Если у вас имеется своя база данных, то в [ci.yml](.github%2Fworkflows%2Fci.yml) удалите "docker run -d --network=mynetwork --name postgres \"
+2. В сервисах 'web', 'celery', 'celery-beat' в строке image укажите свой DOCKER_HUB_USERNAME
 
 ## Проверка работоспособности
 
