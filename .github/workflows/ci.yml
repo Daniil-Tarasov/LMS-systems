@@ -128,6 +128,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
           cd /lms_systems
           docker-compose pull
-          docker-compose down --remove-orphans
+          docker-compose down --remove-orphans || true
           docker-compose up -d --force-recreate
           EOF
