@@ -15,8 +15,7 @@ services:
       - ./.env
 
   nginx:
-    build:
-      image: nginx:latest
+    image: nginx:latest
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/default.conf
     ports:
